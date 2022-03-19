@@ -6,30 +6,47 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: 'nginx'
     nginx.ingress.kubernetes.io/use-regex: 'true'
-    # ADD ANNOTATION
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    # UPDATE ANNOTATION
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.kubernetes.io/ssl-redirect: 'true'
 spec:
+  tls:
+    - hosts:
+        - rvrbk.net
+        - www.rvrbk.net
+      secretName: rvrbk-net
   rules:
-    - http:
+    - host: rvrbk.net
+      http:
         paths:
           - path: /?(.*)
-            # UPDATE PATH
             pathType: Prefix
-            # ADD PATHTYPE
             backend:
               service:
-                # UPDATE SERVICE FIELDS
                 name: client-cluster-ip-service
                 port:
                   number: 3000
           - path: /api/?(.*)
-            # UPDATE PATH
             pathType: Prefix
-            # ADD PATHTYPE
             backend:
               service:
-                # UPDATE SERVICE FIELDS
+                name: server-cluster-ip-service
+                port:
+                  number: 5000
+    - host: www.rvrbk.net
+      http:
+        paths:
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: client-cluster-ip-service
+                port:
+                  number: 3000
+          - path: /api/?(.*)
+            pathType: Prefix
+            backend:
+              service:
                 name: server-cluster-ip-service
                 port:
                   number: 5000
