@@ -10,11 +10,4 @@ spec:
   commonName: rvrbk.net
   dnsNames:
     - rvrbk.net
-    - www.rvrrbk.net
-  acme:
-    config:
-      - http01:
-          ingressClass: nginx
-        domains:
-          - rvrbk.net
-          - www.rvrbk.net
+    - www.rvrbk.net
