@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
     - name: Get the version
       id: vars
-      run: echo ::set-output name=tag::$(echo ${GITHUB_SHA:10})
+      run: echo ::set-output name=tag::$(echo ${GITHUB_SHA:10}) 
     - name: Running deploy script
       run: |-
         docker build -t rvrbk/multi-client:latest -t rvrbk/multi-client:${{steps.vars.outputs.tag}} -f ./client/Dockerfile ./client
